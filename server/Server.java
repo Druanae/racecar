@@ -14,13 +14,13 @@ public class Server {
 	 */
 	protected class Player extends Thread
 	{
-		private char colour;
-		private Player playerTwo;
-		private PlayerStats stats;
+		char colour;
+		Player playerTwo;
+		PlayerStats stats;
 		
-		private Socket socket;
-		private ObjectOutputStream out;
-		private ObjectInputStream in;
+		Socket socket;
+		ObjectOutputStream out;
+		ObjectInputStream in;
 		
 		PrintWriter textOut;
 		

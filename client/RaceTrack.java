@@ -645,11 +645,6 @@ public class RaceTrack extends JPanel implements ActionListener
 		dataHandler.sendStats(player.stats);
 	}
 	
-	public void receiveData(RaceCar player) throws ClassNotFoundException, IOException
-	{
-		player.stats = dataHandler.receiveStats();
-	}
-	
 	@Override
 	public void paintComponent( Graphics g )
 	{
@@ -670,23 +665,28 @@ public class RaceTrack extends JPanel implements ActionListener
 		}
 		else
 		{
+			try 
+			{
+				sendData(playerOne); // sends player one's PlayerStats 
+				PlayerStats newStats = dataHandler.receiveStats();
+				
+				
+				playerTwo.stats.xPos = newStats.xPos;
+				playerTwo.stats.yPos = newStats.yPos;
+				playerTwo.stats.direction = newStats.direction;
+				playerTwo.stats.laps = newStats.laps;
+				playerTwo.stats.markers = newStats.markers;
+				
+				
+			} catch ( IOException | ClassNotFoundException e) 
+			{
+				e.printStackTrace();
+			}
 			setAhead(playerOne, playerTwo);
 			movementHandle( playerOne, playerTwo );
-			movementHandle( playerTwo, playerOne );
 		}
 		
-		try 
-		{
-			sendData(playerOne);
-			receiveData(playerTwo);
-		} catch (IOException e) 
-		{
-			e.printStackTrace();
-		} 
-		catch (ClassNotFoundException e) 
-		{
-			e.printStackTrace();
-		}
+
 		
 		
 		infoDisplay.displayLaps(playerOne, playerTwo, MAX_LAPS);
